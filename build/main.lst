@@ -1,0 +1,507 @@
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 0
+  10              		.eabi_attribute 18, 4
+  11              		.file	"main.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text._Error_Handler,"ax",%progbits
+  16              		.align	1
+  17              		.global	_Error_Handler
+  18              		.syntax unified
+  19              		.code	16
+  20              		.thumb_func
+  21              		.fpu softvfp
+  23              	_Error_Handler:
+  24              	.LFB37:
+  25              		.file 1 "Src/main.c"
+   1:Src/main.c    **** 
+   2:Src/main.c    **** /**
+   3:Src/main.c    ****   ******************************************************************************
+   4:Src/main.c    ****   * @file           : main.c
+   5:Src/main.c    ****   * @brief          : Main program body
+   6:Src/main.c    ****   ******************************************************************************
+   7:Src/main.c    ****   ** This notice applies to any and all portions of this file
+   8:Src/main.c    ****   * that are not between comment pairs USER CODE BEGIN and
+   9:Src/main.c    ****   * USER CODE END. Other portions of this file, whether 
+  10:Src/main.c    ****   * inserted by the user or by software development tools
+  11:Src/main.c    ****   * are owned by their respective copyright owners.
+  12:Src/main.c    ****   *
+  13:Src/main.c    ****   * COPYRIGHT(c) 2018 STMicroelectronics
+  14:Src/main.c    ****   *
+  15:Src/main.c    ****   * Redistribution and use in source and binary forms, with or without modification,
+  16:Src/main.c    ****   * are permitted provided that the following conditions are met:
+  17:Src/main.c    ****   *   1. Redistributions of source code must retain the above copyright notice,
+  18:Src/main.c    ****   *      this list of conditions and the following disclaimer.
+  19:Src/main.c    ****   *   2. Redistributions in binary form must reproduce the above copyright notice,
+  20:Src/main.c    ****   *      this list of conditions and the following disclaimer in the documentation
+  21:Src/main.c    ****   *      and/or other materials provided with the distribution.
+  22:Src/main.c    ****   *   3. Neither the name of STMicroelectronics nor the names of its contributors
+  23:Src/main.c    ****   *      may be used to endorse or promote products derived from this software
+  24:Src/main.c    ****   *      without specific prior written permission.
+  25:Src/main.c    ****   *
+  26:Src/main.c    ****   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  27:Src/main.c    ****   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  28:Src/main.c    ****   * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  29:Src/main.c    ****   * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  30:Src/main.c    ****   * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  31:Src/main.c    ****   * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  32:Src/main.c    ****   * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  33:Src/main.c    ****   * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s 			page 2
+
+
+  34:Src/main.c    ****   * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  35:Src/main.c    ****   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  36:Src/main.c    ****   *
+  37:Src/main.c    ****   ******************************************************************************
+  38:Src/main.c    ****   */
+  39:Src/main.c    **** /* Includes ------------------------------------------------------------------*/
+  40:Src/main.c    **** #include "main.h"
+  41:Src/main.c    **** #include "stm32f0xx_hal.h"
+  42:Src/main.c    **** #include "rtc.h"
+  43:Src/main.c    **** #include "spi.h"
+  44:Src/main.c    **** #include "tim.h"
+  45:Src/main.c    **** #include "gpio.h"
+  46:Src/main.c    **** 
+  47:Src/main.c    **** /* USER CODE BEGIN Includes */
+  48:Src/main.c    **** 
+  49:Src/main.c    **** /* USER CODE END Includes */
+  50:Src/main.c    **** 
+  51:Src/main.c    **** /* Private variables ---------------------------------------------------------*/
+  52:Src/main.c    **** 
+  53:Src/main.c    **** /* USER CODE BEGIN PV */
+  54:Src/main.c    **** /* Private variables ---------------------------------------------------------*/
+  55:Src/main.c    **** 
+  56:Src/main.c    **** /* USER CODE END PV */
+  57:Src/main.c    **** 
+  58:Src/main.c    **** /* Private function prototypes -----------------------------------------------*/
+  59:Src/main.c    **** void SystemClock_Config(void);
+  60:Src/main.c    **** 
+  61:Src/main.c    **** /* USER CODE BEGIN PFP */
+  62:Src/main.c    **** /* Private function prototypes -----------------------------------------------*/
+  63:Src/main.c    **** 
+  64:Src/main.c    **** /* USER CODE END PFP */
+  65:Src/main.c    **** 
+  66:Src/main.c    **** /* USER CODE BEGIN 0 */
+  67:Src/main.c    **** 
+  68:Src/main.c    **** /* USER CODE END 0 */
+  69:Src/main.c    **** 
+  70:Src/main.c    **** /**
+  71:Src/main.c    ****   * @brief  The application entry point.
+  72:Src/main.c    ****   *
+  73:Src/main.c    ****   * @retval None
+  74:Src/main.c    ****   */
+  75:Src/main.c    **** int main(void)
+  76:Src/main.c    **** {
+  77:Src/main.c    ****   /* USER CODE BEGIN 1 */
+  78:Src/main.c    **** 
+  79:Src/main.c    ****   /* USER CODE END 1 */
+  80:Src/main.c    **** 
+  81:Src/main.c    ****   /* MCU Configuration----------------------------------------------------------*/
+  82:Src/main.c    **** 
+  83:Src/main.c    ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  84:Src/main.c    ****   HAL_Init();
+  85:Src/main.c    **** 
+  86:Src/main.c    ****   /* USER CODE BEGIN Init */
+  87:Src/main.c    **** 
+  88:Src/main.c    ****   /* USER CODE END Init */
+  89:Src/main.c    **** 
+  90:Src/main.c    ****   /* Configure the system clock */
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s 			page 3
+
+
+  91:Src/main.c    ****   SystemClock_Config();
+  92:Src/main.c    **** 
+  93:Src/main.c    ****   /* USER CODE BEGIN SysInit */
+  94:Src/main.c    **** 
+  95:Src/main.c    ****   /* USER CODE END SysInit */
+  96:Src/main.c    **** 
+  97:Src/main.c    ****   /* Initialize all configured peripherals */
+  98:Src/main.c    ****   MX_GPIO_Init();
+  99:Src/main.c    ****   MX_SPI1_Init();
+ 100:Src/main.c    ****   MX_RTC_Init();
+ 101:Src/main.c    ****   MX_TIM14_Init();
+ 102:Src/main.c    ****   /* USER CODE BEGIN 2 */
+ 103:Src/main.c    **** 
+ 104:Src/main.c    ****   /* USER CODE END 2 */
+ 105:Src/main.c    **** 
+ 106:Src/main.c    ****   /* Infinite loop */
+ 107:Src/main.c    ****   /* USER CODE BEGIN WHILE */
+ 108:Src/main.c    ****   while (1)
+ 109:Src/main.c    ****   {
+ 110:Src/main.c    **** 
+ 111:Src/main.c    ****   /* USER CODE END WHILE */
+ 112:Src/main.c    **** 
+ 113:Src/main.c    ****   /* USER CODE BEGIN 3 */
+ 114:Src/main.c    **** 
+ 115:Src/main.c    ****   }
+ 116:Src/main.c    ****   /* USER CODE END 3 */
+ 117:Src/main.c    **** 
+ 118:Src/main.c    **** }
+ 119:Src/main.c    **** 
+ 120:Src/main.c    **** /**
+ 121:Src/main.c    ****   * @brief System Clock Configuration
+ 122:Src/main.c    ****   * @retval None
+ 123:Src/main.c    ****   */
+ 124:Src/main.c    **** void SystemClock_Config(void)
+ 125:Src/main.c    **** {
+ 126:Src/main.c    **** 
+ 127:Src/main.c    ****   RCC_OscInitTypeDef RCC_OscInitStruct;
+ 128:Src/main.c    ****   RCC_ClkInitTypeDef RCC_ClkInitStruct;
+ 129:Src/main.c    ****   RCC_PeriphCLKInitTypeDef PeriphClkInit;
+ 130:Src/main.c    **** 
+ 131:Src/main.c    ****     /**Initializes the CPU, AHB and APB busses clocks 
+ 132:Src/main.c    ****     */
+ 133:Src/main.c    ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
+ 134:Src/main.c    ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+ 135:Src/main.c    ****   RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+ 136:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+ 137:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+ 138:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL6;
+ 139:Src/main.c    ****   RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
+ 140:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 141:Src/main.c    ****   {
+ 142:Src/main.c    ****     _Error_Handler(__FILE__, __LINE__);
+ 143:Src/main.c    ****   }
+ 144:Src/main.c    **** 
+ 145:Src/main.c    ****     /**Initializes the CPU, AHB and APB busses clocks 
+ 146:Src/main.c    ****     */
+ 147:Src/main.c    ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s 			page 4
+
+
+ 148:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1;
+ 149:Src/main.c    ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
+ 150:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 151:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+ 152:Src/main.c    **** 
+ 153:Src/main.c    ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_1) != HAL_OK)
+ 154:Src/main.c    ****   {
+ 155:Src/main.c    ****     _Error_Handler(__FILE__, __LINE__);
+ 156:Src/main.c    ****   }
+ 157:Src/main.c    **** 
+ 158:Src/main.c    ****   PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC;
+ 159:Src/main.c    ****   PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
+ 160:Src/main.c    ****   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+ 161:Src/main.c    ****   {
+ 162:Src/main.c    ****     _Error_Handler(__FILE__, __LINE__);
+ 163:Src/main.c    ****   }
+ 164:Src/main.c    **** 
+ 165:Src/main.c    ****     /**Configure the Systick interrupt time 
+ 166:Src/main.c    ****     */
+ 167:Src/main.c    ****   HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
+ 168:Src/main.c    **** 
+ 169:Src/main.c    ****     /**Configure the Systick 
+ 170:Src/main.c    ****     */
+ 171:Src/main.c    ****   HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
+ 172:Src/main.c    **** 
+ 173:Src/main.c    ****   /* SysTick_IRQn interrupt configuration */
+ 174:Src/main.c    ****   HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
+ 175:Src/main.c    **** }
+ 176:Src/main.c    **** 
+ 177:Src/main.c    **** /* USER CODE BEGIN 4 */
+ 178:Src/main.c    **** 
+ 179:Src/main.c    **** /* USER CODE END 4 */
+ 180:Src/main.c    **** 
+ 181:Src/main.c    **** /**
+ 182:Src/main.c    ****   * @brief  This function is executed in case of error occurrence.
+ 183:Src/main.c    ****   * @param  file: The file name as string.
+ 184:Src/main.c    ****   * @param  line: The line in file as a number.
+ 185:Src/main.c    ****   * @retval None
+ 186:Src/main.c    ****   */
+ 187:Src/main.c    **** void _Error_Handler(char *file, int line)
+ 188:Src/main.c    **** {
+  26              		.loc 1 188 0
+  27              		.cfi_startproc
+  28              		@ Volatile: function does not return.
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32              	.LVL0:
+  33              	.L2:
+  34 0000 FEE7     		b	.L2
+  35              		.cfi_endproc
+  36              	.LFE37:
+  38              		.global	__aeabi_uidiv
+  39              		.section	.text._Z18SystemClock_Configv,"ax",%progbits
+  40              		.align	1
+  41              		.global	_Z18SystemClock_Configv
+  42              		.syntax unified
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s 			page 5
+
+
+  43              		.code	16
+  44              		.thumb_func
+  45              		.fpu softvfp
+  47              	_Z18SystemClock_Configv:
+  48              	.LFB36:
+ 125:Src/main.c    **** 
+  49              		.loc 1 125 0
+  50              		.cfi_startproc
+  51              		@ args = 0, pretend = 0, frame = 96
+  52              		@ frame_needed = 0, uses_anonymous_args = 0
+ 125:Src/main.c    **** 
+  53              		.loc 1 125 0
+  54 0000 00B5     		push	{lr}
+  55              	.LCFI0:
+  56              		.cfi_def_cfa_offset 4
+  57              		.cfi_offset 14, -4
+  58 0002 99B0     		sub	sp, sp, #100
+  59              	.LCFI1:
+  60              		.cfi_def_cfa_offset 104
+ 133:Src/main.c    ****   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  61              		.loc 1 133 0
+  62 0004 0923     		movs	r3, #9
+  63 0006 0B93     		str	r3, [sp, #44]
+ 134:Src/main.c    ****   RCC_OscInitStruct.LSIState = RCC_LSI_ON;
+  64              		.loc 1 134 0
+  65 0008 083B     		subs	r3, r3, #8
+  66 000a 0C93     		str	r3, [sp, #48]
+ 135:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
+  67              		.loc 1 135 0
+  68 000c 1293     		str	r3, [sp, #72]
+ 136:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
+  69              		.loc 1 136 0
+  70 000e 0133     		adds	r3, r3, #1
+  71 0010 1493     		str	r3, [sp, #80]
+ 137:Src/main.c    ****   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL6;
+  72              		.loc 1 137 0
+  73 0012 8023     		movs	r3, #128
+  74 0014 5B02     		lsls	r3, r3, #9
+  75 0016 1593     		str	r3, [sp, #84]
+ 138:Src/main.c    ****   RCC_OscInitStruct.PLL.PREDIV = RCC_PREDIV_DIV1;
+  76              		.loc 1 138 0
+  77 0018 8023     		movs	r3, #128
+  78 001a 5B03     		lsls	r3, r3, #13
+  79 001c 1693     		str	r3, [sp, #88]
+ 139:Src/main.c    ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+  80              		.loc 1 139 0
+  81 001e 0023     		movs	r3, #0
+  82 0020 1793     		str	r3, [sp, #92]
+ 140:Src/main.c    ****   {
+  83              		.loc 1 140 0
+  84 0022 0BA8     		add	r0, sp, #44
+  85 0024 FFF7FEFF 		bl	HAL_RCC_OscConfig
+  86              	.LVL1:
+  87 0028 0028     		cmp	r0, #0
+  88 002a 2AD1     		bne	.L7
+ 147:Src/main.c    ****                               |RCC_CLOCKTYPE_PCLK1;
+  89              		.loc 1 147 0
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s 			page 6
+
+
+  90 002c 0723     		movs	r3, #7
+  91 002e 0793     		str	r3, [sp, #28]
+ 149:Src/main.c    ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+  92              		.loc 1 149 0
+  93 0030 053B     		subs	r3, r3, #5
+  94 0032 0893     		str	r3, [sp, #32]
+ 150:Src/main.c    ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+  95              		.loc 1 150 0
+  96 0034 0023     		movs	r3, #0
+  97 0036 0993     		str	r3, [sp, #36]
+ 151:Src/main.c    **** 
+  98              		.loc 1 151 0
+  99 0038 0A93     		str	r3, [sp, #40]
+ 153:Src/main.c    ****   {
+ 100              		.loc 1 153 0
+ 101 003a 0121     		movs	r1, #1
+ 102 003c 07A8     		add	r0, sp, #28
+ 103 003e FFF7FEFF 		bl	HAL_RCC_ClockConfig
+ 104              	.LVL2:
+ 105 0042 0028     		cmp	r0, #0
+ 106 0044 21D1     		bne	.L8
+ 158:Src/main.c    ****   PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
+ 107              		.loc 1 158 0
+ 108 0046 8023     		movs	r3, #128
+ 109 0048 5B02     		lsls	r3, r3, #9
+ 110 004a 0193     		str	r3, [sp, #4]
+ 159:Src/main.c    ****   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
+ 111              		.loc 1 159 0
+ 112 004c 8023     		movs	r3, #128
+ 113 004e 9B00     		lsls	r3, r3, #2
+ 114 0050 0293     		str	r3, [sp, #8]
+ 160:Src/main.c    ****   {
+ 115              		.loc 1 160 0
+ 116 0052 01A8     		add	r0, sp, #4
+ 117 0054 FFF7FEFF 		bl	HAL_RCCEx_PeriphCLKConfig
+ 118              	.LVL3:
+ 119 0058 0028     		cmp	r0, #0
+ 120 005a 1AD1     		bne	.L9
+ 167:Src/main.c    **** 
+ 121              		.loc 1 167 0
+ 122 005c FFF7FEFF 		bl	HAL_RCC_GetHCLKFreq
+ 123              	.LVL4:
+ 124 0060 FA21     		movs	r1, #250
+ 125 0062 8900     		lsls	r1, r1, #2
+ 126 0064 FFF7FEFF 		bl	__aeabi_uidiv
+ 127              	.LVL5:
+ 128 0068 FFF7FEFF 		bl	HAL_SYSTICK_Config
+ 129              	.LVL6:
+ 171:Src/main.c    **** 
+ 130              		.loc 1 171 0
+ 131 006c 0420     		movs	r0, #4
+ 132 006e FFF7FEFF 		bl	HAL_SYSTICK_CLKSourceConfig
+ 133              	.LVL7:
+ 174:Src/main.c    **** }
+ 134              		.loc 1 174 0
+ 135 0072 0120     		movs	r0, #1
+ 136 0074 0022     		movs	r2, #0
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s 			page 7
+
+
+ 137 0076 0021     		movs	r1, #0
+ 138 0078 4042     		rsbs	r0, r0, #0
+ 139 007a FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 140              	.LVL8:
+ 175:Src/main.c    **** 
+ 141              		.loc 1 175 0
+ 142 007e 19B0     		add	sp, sp, #100
+ 143              		@ sp needed
+ 144 0080 00BD     		pop	{pc}
+ 145              	.L7:
+ 142:Src/main.c    ****   }
+ 146              		.loc 1 142 0
+ 147 0082 8E21     		movs	r1, #142
+ 148 0084 0548     		ldr	r0, .L10
+ 149 0086 FFF7FEFF 		bl	_Error_Handler
+ 150              	.LVL9:
+ 151              	.L8:
+ 155:Src/main.c    ****   }
+ 152              		.loc 1 155 0
+ 153 008a 9B21     		movs	r1, #155
+ 154 008c 0348     		ldr	r0, .L10
+ 155 008e FFF7FEFF 		bl	_Error_Handler
+ 156              	.LVL10:
+ 157              	.L9:
+ 162:Src/main.c    ****   }
+ 158              		.loc 1 162 0
+ 159 0092 A221     		movs	r1, #162
+ 160 0094 0148     		ldr	r0, .L10
+ 161 0096 FFF7FEFF 		bl	_Error_Handler
+ 162              	.LVL11:
+ 163              	.L11:
+ 164 009a C046     		.align	2
+ 165              	.L10:
+ 166 009c 00000000 		.word	.LC0
+ 167              		.cfi_endproc
+ 168              	.LFE36:
+ 170              		.section	.text.main,"ax",%progbits
+ 171              		.align	1
+ 172              		.global	main
+ 173              		.syntax unified
+ 174              		.code	16
+ 175              		.thumb_func
+ 176              		.fpu softvfp
+ 178              	main:
+ 179              	.LFB35:
+  76:Src/main.c    ****   /* USER CODE BEGIN 1 */
+ 180              		.loc 1 76 0
+ 181              		.cfi_startproc
+ 182              		@ Volatile: function does not return.
+ 183              		@ args = 0, pretend = 0, frame = 0
+ 184              		@ frame_needed = 0, uses_anonymous_args = 0
+ 185 0000 10B5     		push	{r4, lr}
+ 186              	.LCFI2:
+ 187              		.cfi_def_cfa_offset 8
+ 188              		.cfi_offset 4, -8
+ 189              		.cfi_offset 14, -4
+  84:Src/main.c    **** 
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s 			page 8
+
+
+ 190              		.loc 1 84 0
+ 191 0002 FFF7FEFF 		bl	HAL_Init
+ 192              	.LVL12:
+  91:Src/main.c    **** 
+ 193              		.loc 1 91 0
+ 194 0006 FFF7FEFF 		bl	_Z18SystemClock_Configv
+ 195              	.LVL13:
+  98:Src/main.c    ****   MX_SPI1_Init();
+ 196              		.loc 1 98 0
+ 197 000a FFF7FEFF 		bl	MX_GPIO_Init
+ 198              	.LVL14:
+  99:Src/main.c    ****   MX_RTC_Init();
+ 199              		.loc 1 99 0
+ 200 000e FFF7FEFF 		bl	MX_SPI1_Init
+ 201              	.LVL15:
+ 100:Src/main.c    ****   MX_TIM14_Init();
+ 202              		.loc 1 100 0
+ 203 0012 FFF7FEFF 		bl	MX_RTC_Init
+ 204              	.LVL16:
+ 101:Src/main.c    ****   /* USER CODE BEGIN 2 */
+ 205              		.loc 1 101 0
+ 206 0016 FFF7FEFF 		bl	MX_TIM14_Init
+ 207              	.LVL17:
+ 208              	.L13:
+ 209 001a FEE7     		b	.L13
+ 210              		.cfi_endproc
+ 211              	.LFE35:
+ 213              		.section	.rodata._Z18SystemClock_Configv.str1.4,"aMS",%progbits,1
+ 214              		.align	2
+ 215              	.LC0:
+ 216 0000 5372632F 		.ascii	"Src/main.c\000"
+ 216      6D61696E 
+ 216      2E6300
+ 217              		.text
+ 218              	.Letext0:
+ 219              		.file 2 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f042x6.h"
+ 220              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\include
+ 221              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\include
+ 222              		.file 5 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/system_stm32f0xx.h"
+ 223              		.file 6 "c:\\program files (x86)\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\include
+ 224              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\include
+ 225              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\7 2018-q2-update\\lib\\gcc\\arm-none-eab
+ 226              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\include
+ 227              		.file 10 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h"
+ 228              		.file 11 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h"
+ 229              		.file 12 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc_ex.h"
+ 230              		.file 13 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h"
+ 231              		.file 14 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rtc.h"
+ 232              		.file 15 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi.h"
+ 233              		.file 16 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_tim.h"
+ 234              		.file 17 "Inc/rtc.h"
+ 235              		.file 18 "Inc/spi.h"
+ 236              		.file 19 "Inc/tim.h"
+ 237              		.file 20 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_cortex.h"
+ 238              		.file 21 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h"
+ 239              		.file 22 "Inc/gpio.h"
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s:16     .text._Error_Handler:00000000 $t
+C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s:23     .text._Error_Handler:00000000 _Error_Handler
+C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s:40     .text._Z18SystemClock_Configv:00000000 $t
+C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s:47     .text._Z18SystemClock_Configv:00000000 _Z18SystemClock_Configv
+C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s:166    .text._Z18SystemClock_Configv:0000009c $d
+C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s:171    .text.main:00000000 $t
+C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s:178    .text.main:00000000 main
+C:\Users\HOGEHO~1\AppData\Local\Temp\cckjHh5S.s:214    .rodata._Z18SystemClock_Configv.str1.4:00000000 $d
+
+UNDEFINED SYMBOLS
+__aeabi_uidiv
+HAL_RCC_OscConfig
+HAL_RCC_ClockConfig
+HAL_RCCEx_PeriphCLKConfig
+HAL_RCC_GetHCLKFreq
+HAL_SYSTICK_Config
+HAL_SYSTICK_CLKSourceConfig
+HAL_NVIC_SetPriority
+HAL_Init
+MX_GPIO_Init
+MX_SPI1_Init
+MX_RTC_Init
+MX_TIM14_Init

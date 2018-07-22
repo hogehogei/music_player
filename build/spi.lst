@@ -1,0 +1,479 @@
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s 			page 1
+
+
+   1              		.cpu cortex-m0
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 0
+  10              		.eabi_attribute 18, 4
+  11              		.file	"spi.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.MX_SPI1_Init,"ax",%progbits
+  16              		.align	1
+  17              		.global	MX_SPI1_Init
+  18              		.syntax unified
+  19              		.code	16
+  20              		.thumb_func
+  21              		.fpu softvfp
+  23              	MX_SPI1_Init:
+  24              	.LFB35:
+  25              		.file 1 "Src/spi.c"
+   1:Src/spi.c     **** /**
+   2:Src/spi.c     ****   ******************************************************************************
+   3:Src/spi.c     ****   * File Name          : SPI.c
+   4:Src/spi.c     ****   * Description        : This file provides code for the configuration
+   5:Src/spi.c     ****   *                      of the SPI instances.
+   6:Src/spi.c     ****   ******************************************************************************
+   7:Src/spi.c     ****   ** This notice applies to any and all portions of this file
+   8:Src/spi.c     ****   * that are not between comment pairs USER CODE BEGIN and
+   9:Src/spi.c     ****   * USER CODE END. Other portions of this file, whether 
+  10:Src/spi.c     ****   * inserted by the user or by software development tools
+  11:Src/spi.c     ****   * are owned by their respective copyright owners.
+  12:Src/spi.c     ****   *
+  13:Src/spi.c     ****   * COPYRIGHT(c) 2018 STMicroelectronics
+  14:Src/spi.c     ****   *
+  15:Src/spi.c     ****   * Redistribution and use in source and binary forms, with or without modification,
+  16:Src/spi.c     ****   * are permitted provided that the following conditions are met:
+  17:Src/spi.c     ****   *   1. Redistributions of source code must retain the above copyright notice,
+  18:Src/spi.c     ****   *      this list of conditions and the following disclaimer.
+  19:Src/spi.c     ****   *   2. Redistributions in binary form must reproduce the above copyright notice,
+  20:Src/spi.c     ****   *      this list of conditions and the following disclaimer in the documentation
+  21:Src/spi.c     ****   *      and/or other materials provided with the distribution.
+  22:Src/spi.c     ****   *   3. Neither the name of STMicroelectronics nor the names of its contributors
+  23:Src/spi.c     ****   *      may be used to endorse or promote products derived from this software
+  24:Src/spi.c     ****   *      without specific prior written permission.
+  25:Src/spi.c     ****   *
+  26:Src/spi.c     ****   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  27:Src/spi.c     ****   * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  28:Src/spi.c     ****   * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  29:Src/spi.c     ****   * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+  30:Src/spi.c     ****   * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+  31:Src/spi.c     ****   * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+  32:Src/spi.c     ****   * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+  33:Src/spi.c     ****   * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s 			page 2
+
+
+  34:Src/spi.c     ****   * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+  35:Src/spi.c     ****   * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  36:Src/spi.c     ****   *
+  37:Src/spi.c     ****   ******************************************************************************
+  38:Src/spi.c     ****   */
+  39:Src/spi.c     **** 
+  40:Src/spi.c     **** /* Includes ------------------------------------------------------------------*/
+  41:Src/spi.c     **** #include "spi.h"
+  42:Src/spi.c     **** 
+  43:Src/spi.c     **** #include "gpio.h"
+  44:Src/spi.c     **** 
+  45:Src/spi.c     **** /* USER CODE BEGIN 0 */
+  46:Src/spi.c     **** 
+  47:Src/spi.c     **** /* USER CODE END 0 */
+  48:Src/spi.c     **** 
+  49:Src/spi.c     **** SPI_HandleTypeDef hspi1;
+  50:Src/spi.c     **** 
+  51:Src/spi.c     **** /* SPI1 init function */
+  52:Src/spi.c     **** void MX_SPI1_Init(void)
+  53:Src/spi.c     **** {
+  26              		.loc 1 53 0
+  27              		.cfi_startproc
+  28              		@ args = 0, pretend = 0, frame = 0
+  29              		@ frame_needed = 0, uses_anonymous_args = 0
+  30 0000 10B5     		push	{r4, lr}
+  31              	.LCFI0:
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 4, -8
+  34              		.cfi_offset 14, -4
+  54:Src/spi.c     **** 
+  55:Src/spi.c     ****   hspi1.Instance = SPI1;
+  35              		.loc 1 55 0
+  36 0002 1248     		ldr	r0, .L4
+  37 0004 124B     		ldr	r3, .L4+4
+  38 0006 0360     		str	r3, [r0]
+  56:Src/spi.c     ****   hspi1.Init.Mode = SPI_MODE_MASTER;
+  39              		.loc 1 56 0
+  40 0008 8223     		movs	r3, #130
+  41 000a 5B00     		lsls	r3, r3, #1
+  42 000c 4360     		str	r3, [r0, #4]
+  57:Src/spi.c     ****   hspi1.Init.Direction = SPI_DIRECTION_2LINES;
+  43              		.loc 1 57 0
+  44 000e 0023     		movs	r3, #0
+  45 0010 8360     		str	r3, [r0, #8]
+  58:Src/spi.c     ****   hspi1.Init.DataSize = SPI_DATASIZE_4BIT;
+  46              		.loc 1 58 0
+  47 0012 C022     		movs	r2, #192
+  48 0014 9200     		lsls	r2, r2, #2
+  49 0016 C260     		str	r2, [r0, #12]
+  59:Src/spi.c     ****   hspi1.Init.CLKPolarity = SPI_POLARITY_LOW;
+  50              		.loc 1 59 0
+  51 0018 0361     		str	r3, [r0, #16]
+  60:Src/spi.c     ****   hspi1.Init.CLKPhase = SPI_PHASE_1EDGE;
+  52              		.loc 1 60 0
+  53 001a 4361     		str	r3, [r0, #20]
+  61:Src/spi.c     ****   hspi1.Init.NSS = SPI_NSS_SOFT;
+  54              		.loc 1 61 0
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s 			page 3
+
+
+  55 001c 013A     		subs	r2, r2, #1
+  56 001e FF3A     		subs	r2, r2, #255
+  57 0020 8261     		str	r2, [r0, #24]
+  62:Src/spi.c     ****   hspi1.Init.BaudRatePrescaler = SPI_BAUDRATEPRESCALER_128;
+  58              		.loc 1 62 0
+  59 0022 D13A     		subs	r2, r2, #209
+  60 0024 FF3A     		subs	r2, r2, #255
+  61 0026 C261     		str	r2, [r0, #28]
+  63:Src/spi.c     ****   hspi1.Init.FirstBit = SPI_FIRSTBIT_MSB;
+  62              		.loc 1 63 0
+  63 0028 0362     		str	r3, [r0, #32]
+  64:Src/spi.c     ****   hspi1.Init.TIMode = SPI_TIMODE_DISABLE;
+  64              		.loc 1 64 0
+  65 002a 4362     		str	r3, [r0, #36]
+  65:Src/spi.c     ****   hspi1.Init.CRCCalculation = SPI_CRCCALCULATION_DISABLE;
+  66              		.loc 1 65 0
+  67 002c 8362     		str	r3, [r0, #40]
+  66:Src/spi.c     ****   hspi1.Init.CRCPolynomial = 7;
+  68              		.loc 1 66 0
+  69 002e 293A     		subs	r2, r2, #41
+  70 0030 C262     		str	r2, [r0, #44]
+  67:Src/spi.c     ****   hspi1.Init.CRCLength = SPI_CRC_LENGTH_DATASIZE;
+  71              		.loc 1 67 0
+  72 0032 0363     		str	r3, [r0, #48]
+  68:Src/spi.c     ****   hspi1.Init.NSSPMode = SPI_NSS_PULSE_ENABLE;
+  73              		.loc 1 68 0
+  74 0034 0833     		adds	r3, r3, #8
+  75 0036 4363     		str	r3, [r0, #52]
+  69:Src/spi.c     ****   if (HAL_SPI_Init(&hspi1) != HAL_OK)
+  76              		.loc 1 69 0
+  77 0038 FFF7FEFF 		bl	HAL_SPI_Init
+  78              	.LVL0:
+  79 003c 0028     		cmp	r0, #0
+  80 003e 00D1     		bne	.L3
+  81              	.L1:
+  70:Src/spi.c     ****   {
+  71:Src/spi.c     ****     _Error_Handler(__FILE__, __LINE__);
+  72:Src/spi.c     ****   }
+  73:Src/spi.c     **** 
+  74:Src/spi.c     **** }
+  82              		.loc 1 74 0
+  83              		@ sp needed
+  84 0040 10BD     		pop	{r4, pc}
+  85              	.L3:
+  71:Src/spi.c     ****   }
+  86              		.loc 1 71 0
+  87 0042 4721     		movs	r1, #71
+  88 0044 0348     		ldr	r0, .L4+8
+  89 0046 FFF7FEFF 		bl	_Error_Handler
+  90              	.LVL1:
+  91              		.loc 1 74 0
+  92 004a F9E7     		b	.L1
+  93              	.L5:
+  94              		.align	2
+  95              	.L4:
+  96 004c 00000000 		.word	.LANCHOR0
+  97 0050 00300140 		.word	1073819648
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s 			page 4
+
+
+  98 0054 00000000 		.word	.LC1
+  99              		.cfi_endproc
+ 100              	.LFE35:
+ 102              		.section	.text.HAL_SPI_MspInit,"ax",%progbits
+ 103              		.align	1
+ 104              		.global	HAL_SPI_MspInit
+ 105              		.syntax unified
+ 106              		.code	16
+ 107              		.thumb_func
+ 108              		.fpu softvfp
+ 110              	HAL_SPI_MspInit:
+ 111              	.LFB36:
+  75:Src/spi.c     **** 
+  76:Src/spi.c     **** void HAL_SPI_MspInit(SPI_HandleTypeDef* spiHandle)
+  77:Src/spi.c     **** {
+ 112              		.loc 1 77 0
+ 113              		.cfi_startproc
+ 114              		@ args = 0, pretend = 0, frame = 24
+ 115              		@ frame_needed = 0, uses_anonymous_args = 0
+ 116              	.LVL2:
+ 117 0000 00B5     		push	{lr}
+ 118              	.LCFI1:
+ 119              		.cfi_def_cfa_offset 4
+ 120              		.cfi_offset 14, -4
+ 121 0002 87B0     		sub	sp, sp, #28
+ 122              	.LCFI2:
+ 123              		.cfi_def_cfa_offset 32
+ 124              	.LBB2:
+  78:Src/spi.c     **** 
+  79:Src/spi.c     ****   GPIO_InitTypeDef GPIO_InitStruct;
+  80:Src/spi.c     ****   if(spiHandle->Instance==SPI1)
+ 125              		.loc 1 80 0
+ 126 0004 0268     		ldr	r2, [r0]
+ 127 0006 134B     		ldr	r3, .L9
+ 128 0008 9A42     		cmp	r2, r3
+ 129 000a 01D0     		beq	.L8
+ 130              	.LVL3:
+ 131              	.L6:
+ 132              	.LBE2:
+  81:Src/spi.c     ****   {
+  82:Src/spi.c     ****   /* USER CODE BEGIN SPI1_MspInit 0 */
+  83:Src/spi.c     **** 
+  84:Src/spi.c     ****   /* USER CODE END SPI1_MspInit 0 */
+  85:Src/spi.c     ****     /* SPI1 clock enable */
+  86:Src/spi.c     ****     __HAL_RCC_SPI1_CLK_ENABLE();
+  87:Src/spi.c     ****   
+  88:Src/spi.c     ****     /**SPI1 GPIO Configuration    
+  89:Src/spi.c     ****     PA5     ------> SPI1_SCK
+  90:Src/spi.c     ****     PA6     ------> SPI1_MISO
+  91:Src/spi.c     ****     PA7     ------> SPI1_MOSI 
+  92:Src/spi.c     ****     */
+  93:Src/spi.c     ****     GPIO_InitStruct.Pin = GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7;
+  94:Src/spi.c     ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  95:Src/spi.c     ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+  96:Src/spi.c     ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  97:Src/spi.c     ****     GPIO_InitStruct.Alternate = GPIO_AF0_SPI1;
+  98:Src/spi.c     ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s 			page 5
+
+
+  99:Src/spi.c     **** 
+ 100:Src/spi.c     ****     /* SPI1 interrupt Init */
+ 101:Src/spi.c     ****     HAL_NVIC_SetPriority(SPI1_IRQn, 0, 0);
+ 102:Src/spi.c     ****     HAL_NVIC_EnableIRQ(SPI1_IRQn);
+ 103:Src/spi.c     ****   /* USER CODE BEGIN SPI1_MspInit 1 */
+ 104:Src/spi.c     **** 
+ 105:Src/spi.c     ****   /* USER CODE END SPI1_MspInit 1 */
+ 106:Src/spi.c     ****   }
+ 107:Src/spi.c     **** }
+ 133              		.loc 1 107 0
+ 134 000c 07B0     		add	sp, sp, #28
+ 135              		@ sp needed
+ 136 000e 00BD     		pop	{pc}
+ 137              	.LVL4:
+ 138              	.L8:
+ 139              	.LBB5:
+ 140              	.LBB3:
+ 141              	.LBB4:
+  86:Src/spi.c     ****   
+ 142              		.loc 1 86 0
+ 143 0010 114A     		ldr	r2, .L9+4
+ 144 0012 9169     		ldr	r1, [r2, #24]
+ 145 0014 8020     		movs	r0, #128
+ 146              	.LVL5:
+ 147 0016 4001     		lsls	r0, r0, #5
+ 148 0018 0143     		orrs	r1, r0
+ 149 001a 9161     		str	r1, [r2, #24]
+ 150 001c 9369     		ldr	r3, [r2, #24]
+ 151 001e 0340     		ands	r3, r0
+ 152 0020 0093     		str	r3, [sp]
+ 153 0022 009B     		ldr	r3, [sp]
+ 154              	.LBE4:
+  93:Src/spi.c     ****     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+ 155              		.loc 1 93 0
+ 156 0024 E023     		movs	r3, #224
+ 157 0026 0193     		str	r3, [sp, #4]
+  94:Src/spi.c     ****     GPIO_InitStruct.Pull = GPIO_NOPULL;
+ 158              		.loc 1 94 0
+ 159 0028 DE3B     		subs	r3, r3, #222
+ 160 002a 0293     		str	r3, [sp, #8]
+  95:Src/spi.c     ****     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+ 161              		.loc 1 95 0
+ 162 002c 0023     		movs	r3, #0
+ 163 002e 0393     		str	r3, [sp, #12]
+  96:Src/spi.c     ****     GPIO_InitStruct.Alternate = GPIO_AF0_SPI1;
+ 164              		.loc 1 96 0
+ 165 0030 0322     		movs	r2, #3
+ 166 0032 0492     		str	r2, [sp, #16]
+  97:Src/spi.c     ****     HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+ 167              		.loc 1 97 0
+ 168 0034 0593     		str	r3, [sp, #20]
+  98:Src/spi.c     **** 
+ 169              		.loc 1 98 0
+ 170 0036 9020     		movs	r0, #144
+ 171 0038 01A9     		add	r1, sp, #4
+ 172 003a C005     		lsls	r0, r0, #23
+ 173 003c FFF7FEFF 		bl	HAL_GPIO_Init
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s 			page 6
+
+
+ 174              	.LVL6:
+ 101:Src/spi.c     ****     HAL_NVIC_EnableIRQ(SPI1_IRQn);
+ 175              		.loc 1 101 0
+ 176 0040 0022     		movs	r2, #0
+ 177 0042 0021     		movs	r1, #0
+ 178 0044 1920     		movs	r0, #25
+ 179 0046 FFF7FEFF 		bl	HAL_NVIC_SetPriority
+ 180              	.LVL7:
+ 102:Src/spi.c     ****   /* USER CODE BEGIN SPI1_MspInit 1 */
+ 181              		.loc 1 102 0
+ 182 004a 1920     		movs	r0, #25
+ 183 004c FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+ 184              	.LVL8:
+ 185              	.LBE3:
+ 186              	.LBE5:
+ 187              		.loc 1 107 0
+ 188 0050 DCE7     		b	.L6
+ 189              	.L10:
+ 190 0052 C046     		.align	2
+ 191              	.L9:
+ 192 0054 00300140 		.word	1073819648
+ 193 0058 00100240 		.word	1073876992
+ 194              		.cfi_endproc
+ 195              	.LFE36:
+ 197              		.section	.text.HAL_SPI_MspDeInit,"ax",%progbits
+ 198              		.align	1
+ 199              		.global	HAL_SPI_MspDeInit
+ 200              		.syntax unified
+ 201              		.code	16
+ 202              		.thumb_func
+ 203              		.fpu softvfp
+ 205              	HAL_SPI_MspDeInit:
+ 206              	.LFB37:
+ 108:Src/spi.c     **** 
+ 109:Src/spi.c     **** void HAL_SPI_MspDeInit(SPI_HandleTypeDef* spiHandle)
+ 110:Src/spi.c     **** {
+ 207              		.loc 1 110 0
+ 208              		.cfi_startproc
+ 209              		@ args = 0, pretend = 0, frame = 0
+ 210              		@ frame_needed = 0, uses_anonymous_args = 0
+ 211              	.LVL9:
+ 212 0000 10B5     		push	{r4, lr}
+ 213              	.LCFI3:
+ 214              		.cfi_def_cfa_offset 8
+ 215              		.cfi_offset 4, -8
+ 216              		.cfi_offset 14, -4
+ 111:Src/spi.c     **** 
+ 112:Src/spi.c     ****   if(spiHandle->Instance==SPI1)
+ 217              		.loc 1 112 0
+ 218 0002 0268     		ldr	r2, [r0]
+ 219 0004 084B     		ldr	r3, .L14
+ 220 0006 9A42     		cmp	r2, r3
+ 221 0008 00D0     		beq	.L13
+ 222              	.LVL10:
+ 223              	.L11:
+ 113:Src/spi.c     ****   {
+ 114:Src/spi.c     ****   /* USER CODE BEGIN SPI1_MspDeInit 0 */
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s 			page 7
+
+
+ 115:Src/spi.c     **** 
+ 116:Src/spi.c     ****   /* USER CODE END SPI1_MspDeInit 0 */
+ 117:Src/spi.c     ****     /* Peripheral clock disable */
+ 118:Src/spi.c     ****     __HAL_RCC_SPI1_CLK_DISABLE();
+ 119:Src/spi.c     ****   
+ 120:Src/spi.c     ****     /**SPI1 GPIO Configuration    
+ 121:Src/spi.c     ****     PA5     ------> SPI1_SCK
+ 122:Src/spi.c     ****     PA6     ------> SPI1_MISO
+ 123:Src/spi.c     ****     PA7     ------> SPI1_MOSI 
+ 124:Src/spi.c     ****     */
+ 125:Src/spi.c     ****     HAL_GPIO_DeInit(GPIOA, GPIO_PIN_5|GPIO_PIN_6|GPIO_PIN_7);
+ 126:Src/spi.c     **** 
+ 127:Src/spi.c     ****     /* SPI1 interrupt Deinit */
+ 128:Src/spi.c     ****     HAL_NVIC_DisableIRQ(SPI1_IRQn);
+ 129:Src/spi.c     ****   /* USER CODE BEGIN SPI1_MspDeInit 1 */
+ 130:Src/spi.c     **** 
+ 131:Src/spi.c     ****   /* USER CODE END SPI1_MspDeInit 1 */
+ 132:Src/spi.c     ****   }
+ 133:Src/spi.c     **** } 
+ 224              		.loc 1 133 0
+ 225              		@ sp needed
+ 226 000a 10BD     		pop	{r4, pc}
+ 227              	.LVL11:
+ 228              	.L13:
+ 118:Src/spi.c     ****   
+ 229              		.loc 1 118 0
+ 230 000c 074A     		ldr	r2, .L14+4
+ 231 000e 9369     		ldr	r3, [r2, #24]
+ 232 0010 0749     		ldr	r1, .L14+8
+ 233 0012 0B40     		ands	r3, r1
+ 234 0014 9361     		str	r3, [r2, #24]
+ 125:Src/spi.c     **** 
+ 235              		.loc 1 125 0
+ 236 0016 9020     		movs	r0, #144
+ 237              	.LVL12:
+ 238 0018 E021     		movs	r1, #224
+ 239 001a C005     		lsls	r0, r0, #23
+ 240 001c FFF7FEFF 		bl	HAL_GPIO_DeInit
+ 241              	.LVL13:
+ 128:Src/spi.c     ****   /* USER CODE BEGIN SPI1_MspDeInit 1 */
+ 242              		.loc 1 128 0
+ 243 0020 1920     		movs	r0, #25
+ 244 0022 FFF7FEFF 		bl	HAL_NVIC_DisableIRQ
+ 245              	.LVL14:
+ 246              		.loc 1 133 0
+ 247 0026 F0E7     		b	.L11
+ 248              	.L15:
+ 249              		.align	2
+ 250              	.L14:
+ 251 0028 00300140 		.word	1073819648
+ 252 002c 00100240 		.word	1073876992
+ 253 0030 FFEFFFFF 		.word	-4097
+ 254              		.cfi_endproc
+ 255              	.LFE37:
+ 257              		.global	hspi1
+ 258              		.section	.bss.hspi1,"aw",%nobits
+ 259              		.align	2
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s 			page 8
+
+
+ 260              		.set	.LANCHOR0,. + 0
+ 263              	hspi1:
+ 264 0000 00000000 		.space	100
+ 264      00000000 
+ 264      00000000 
+ 264      00000000 
+ 264      00000000 
+ 265              		.section	.rodata.MX_SPI1_Init.str1.4,"aMS",%progbits,1
+ 266              		.align	2
+ 267              	.LC1:
+ 268 0000 5372632F 		.ascii	"Src/spi.c\000"
+ 268      7370692E 
+ 268      6300
+ 269              		.text
+ 270              	.Letext0:
+ 271              		.file 2 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f042x6.h"
+ 272              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\include
+ 273              		.file 4 "c:\\program files (x86)\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\include
+ 274              		.file 5 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/system_stm32f0xx.h"
+ 275              		.file 6 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f0xx.h"
+ 276              		.file 7 "c:\\program files (x86)\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\include
+ 277              		.file 8 "c:\\program files (x86)\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\include
+ 278              		.file 9 "c:\\program files (x86)\\gnu tools arm embedded\\7 2018-q2-update\\lib\\gcc\\arm-none-eab
+ 279              		.file 10 "c:\\program files (x86)\\gnu tools arm embedded\\7 2018-q2-update\\arm-none-eabi\\includ
+ 280              		.file 11 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h"
+ 281              		.file 12 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_gpio.h"
+ 282              		.file 13 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h"
+ 283              		.file 14 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_spi.h"
+ 284              		.file 15 "Inc/spi.h"
+ 285              		.file 16 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_cortex.h"
+ARM GAS  C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s 			page 9
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 spi.c
+C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s:16     .text.MX_SPI1_Init:00000000 $t
+C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s:23     .text.MX_SPI1_Init:00000000 MX_SPI1_Init
+C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s:96     .text.MX_SPI1_Init:0000004c $d
+C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s:103    .text.HAL_SPI_MspInit:00000000 $t
+C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s:110    .text.HAL_SPI_MspInit:00000000 HAL_SPI_MspInit
+C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s:192    .text.HAL_SPI_MspInit:00000054 $d
+C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s:198    .text.HAL_SPI_MspDeInit:00000000 $t
+C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s:205    .text.HAL_SPI_MspDeInit:00000000 HAL_SPI_MspDeInit
+C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s:251    .text.HAL_SPI_MspDeInit:00000028 $d
+C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s:263    .bss.hspi1:00000000 hspi1
+C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s:259    .bss.hspi1:00000000 $d
+C:\Users\HOGEHO~1\AppData\Local\Temp\ccjgPO3y.s:266    .rodata.MX_SPI1_Init.str1.4:00000000 $d
+
+UNDEFINED SYMBOLS
+HAL_SPI_Init
+_Error_Handler
+HAL_GPIO_Init
+HAL_NVIC_SetPriority
+HAL_NVIC_EnableIRQ
+HAL_GPIO_DeInit
+HAL_NVIC_DisableIRQ
