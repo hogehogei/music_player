@@ -43,6 +43,7 @@
 #include "spi.h"
 #include "tim.h"
 #include "gpio.h"
+#include "input.hpp"
 
 /* USER CODE BEGIN Includes */
 
@@ -52,7 +53,10 @@
 
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
-
+static UI g_UI;
+static uint32_t g_BlinkCnt = 0;
+static uint32_t g_BlinkInterval = 1000;
+static bool     g_LED_On = false;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -64,6 +68,13 @@ void SystemClock_Config(void);
 /* USER CODE END PFP */
 
 /* USER CODE BEGIN 0 */
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+    if( htim == &htim14 ){
+        ++g_BlinkCnt;
+    }
+}
 
 /* USER CODE END 0 */
 
@@ -100,13 +111,49 @@ int main(void)
   MX_RTC_Init();
   MX_TIM14_Init();
   /* USER CODE BEGIN 2 */
-
+  HAL_TIM_Base_Start_IT( &htim14 );
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+      g_UI.update();
+
+      if( g_UI.playPause_SW_Up() ){
+          g_BlinkInterval = 100;
+          g_BlinkCnt = 0;
+      }
+      else if( g_UI.up_SW_Up() ){
+          g_BlinkInterval = 300;
+          g_BlinkCnt = 0;
+      }
+      else if( g_UI.down_SW_Up() ){
+          g_BlinkInterval = 500;
+          g_BlinkCnt = 0;
+      }
+      else if( g_UI.right_SW_Up() ){
+          g_BlinkInterval = 700;
+          g_BlinkCnt = 0;
+      }
+      else if( g_UI.left_SW_Up() ){
+          g_BlinkInterval = 1000;
+          g_BlinkCnt = 0;
+      }
+
+      if( g_BlinkCnt >= g_BlinkInterval ){
+          g_LED_On = !g_LED_On;
+          g_BlinkCnt = 0;
+      }
+
+      if( g_LED_On ){
+           HAL_GPIO_WritePin( LED_GPIO_Port, LED_Pin, GPIO_PIN_SET );
+      }
+      else {
+           HAL_GPIO_WritePin( LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET );
+      }
+
+
 
   /* USER CODE END WHILE */
 
