@@ -871,7 +871,7 @@ FRESULT pf_read (
 	CLUST clst;
 	DWORD sect, remain;
 	UINT rcnt;
-	BYTE cs, *rbuff = buff;
+	BYTE cs, *rbuff = reinterpret_cast<BYTE*>(buff);
 	FATFS *fs = FatFs;
 
 
@@ -925,7 +925,7 @@ FRESULT pf_write (
 {
 	CLUST clst;
 	DWORD sect, remain;
-	const BYTE *p = buff;
+	const BYTE *p = reinterpret_cast<const BYTE*>(buff);
 	BYTE cs;
 	UINT wcnt;
 	FATFS *fs = FatFs;

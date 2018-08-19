@@ -3,8 +3,11 @@
 /*-----------------------------------------------------------------------*/
 
 #include "diskio.h"
+#include "sdcard/SDC_Drv_SPI.hpp"
+#include "sdcard/SD_Card.hpp"
 
-
+static SD_Card s_SDC;					//! SD Card class
+static SDC_Drv_SPI s_SDC_Drv;			//! SD Card driver
 
 /*-----------------------------------------------------------------------*/
 /* Initialize Disk Drive                                                 */
@@ -16,7 +19,12 @@ DSTATUS disk_initialize (void)
 	bool result = false;
 
 	// Put your code here
-	result = s_SDC.initialize( &s_SDC_Drv );
+	result = s_SDC.Initialize( &s_SDC_Drv );
+
+	if( result ){
+		// 初期化成功
+		stat = 0;
+	}
 
 	return stat;
 }
@@ -35,12 +43,7 @@ DRESULT disk_readp (
 )
 {
 	// Put your code here
-
-	if( (offset + count) > 512 ){
-		return RES_ERROR;
-	}
-
-	bool result = s_SDC.readSector( buff, sector, offset, count );
+	bool result = s_SDC.Read( buff, sector, offset, count );
 
 	return result ? RES_OK : RES_ERROR;
 }
@@ -61,15 +64,15 @@ DRESULT disk_writep (
 	if (!buff) {
 		if (sc) {
 			// Initiate write process
-			result = s_SDC.writeSector_Initiate( sc, 512 );
+			result = s_SDC.WriteInitiate( sc );
 
 		} else {
 			// Finalize write process
-			result = s_SDC.writeSector_Finalize();
+			result = s_SDC.WriteFinalize();
 		}
 	} else {
 		// Send data to the disk
-		result = s_SDC.writeSector( buff, sc );
+		result = s_SDC.Write( buff, sc );
 	}
 
 	return result ? RES_OK : RES_ERROR;
