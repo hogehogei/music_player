@@ -61,8 +61,7 @@ Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_pwr_ex.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash.c \
 Drivers/STM32F0xx_HAL_Driver/Src/stm32f0xx_hal_flash_ex.c \
-Src/system_stm32f0xx.c \
-$(wildcard Src/petit_fs/*.c)
+Src/system_stm32f0xx.c  
 
 # ASM sources
 ASM_SOURCES =  \
@@ -70,9 +69,7 @@ startup_stm32f042x6.s
 
 # CPP sources
 CPP_SOURCES = \
-$(wildcard Src/*.cpp) \
-$(wildcard Src/sdcard/*.cpp) \
-
+$(wildcard Src/*.cpp)
 
 
 #######################################
@@ -126,11 +123,10 @@ AS_INCLUDES =
 # C includes
 C_INCLUDES =  \
 -IInc \
--IInc/petit_fs \
 -IDrivers/STM32F0xx_HAL_Driver/Inc \
 -IDrivers/STM32F0xx_HAL_Driver/Inc/Legacy \
 -IDrivers/CMSIS/Device/ST/STM32F0xx/Include \
--IDrivers/CMSIS/Include \
+-IDrivers/CMSIS/Include
 
 
 # compile gcc flags
