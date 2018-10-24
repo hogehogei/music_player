@@ -3,80 +3,6 @@
 #include "main.h"
 #include "gpio.h"
 
-ChatteringFilter::ChatteringFilter( uint32_t on_cnt, uint32_t off_cnt, bool on_level, bool initial_level )
-: 
-    mk_OnJdgCnt( on_cnt ),
-    mk_OffJdgCnt( off_cnt ),
-    m_Cnt( 0 ),
-    mk_OnLevel( on_level ),
-    m_InputSignal( initial_level ),
-    m_Sts( initial_level ),
-    m_RisingEdg( false ),
-    m_FallingEdg( false )
-{}
-
-ChatteringFilter::~ChatteringFilter() 
-{}
-
-void ChatteringFilter::update( bool input_signal )
-{
-    // 前回立ち上がり・立ち下がりエッジがあった場合にのみONになるように
-    // 毎回OFFで初期化
-    m_RisingEdg = false;
-    m_FallingEdg = false;
-
-    if( input_signal == mk_OnLevel ){
-        if( m_InputSignal == false ){
-            m_Cnt = 0;
-        }
-
-        if( m_Cnt < mk_OnJdgCnt ){
-            ++m_Cnt;
-            if( m_Cnt >= mk_OnJdgCnt ){
-                m_Sts = true;
-                m_RisingEdg = true;
-            }
-        }
-    }
-    else {
-        if( m_InputSignal == true ){
-            m_Cnt = 0;
-        }
-
-        if( m_Cnt < mk_OffJdgCnt ){
-            ++m_Cnt;
-            if( m_Cnt >= mk_OffJdgCnt ){
-                m_Sts = false;
-                m_FallingEdg = true;
-            }
-        }
-    }
-
-    m_InputSignal = input_signal;
-}
-
-bool ChatteringFilter::isOn() const
-{
-    return m_Sts == true;
-}
-
-bool ChatteringFilter::isOff() const
-{
-    return m_Sts == false;
-}
-
-bool ChatteringFilter::isRisingEdg() const
-{
-    return m_RisingEdg;
-}
-
-bool ChatteringFilter::isFallingEdg() const
-{
-    return m_FallingEdg;
-}
-
-
-
 UI::UI()
 :   m_PlayPause_SW( sk_PlayPause_OnCnt, sk_PlayPause_OffCnt, sk_PlayPause_OnLevel, false ),
     m_Up_SW( sk_Up_OnCnt, sk_Up_OffCnt, sk_Up_OnLevel, false ),
@@ -118,9 +44,29 @@ bool UI::playPause_SW() const
     return m_PlayPause_SW.isOn();
 }
 
+bool UI::playPause_SW_Down() const
+{
+    return m_PlayPause_SW.isRisingEdg();
+}
+
+bool UI::playPause_SW_Up() const
+{
+    return m_PlayPause_SW.isFallingEdg();
+}
+
 bool UI::up_SW() const
 {
     return m_Up_SW.isOn();
+}
+
+bool UI::up_SW_Down() const
+{
+    return m_Up_SW.isRisingEdg();
+}
+
+bool UI::up_SW_Up() const
+{
+    return m_Up_SW.isFallingEdg();
 }
 
 bool UI::down_SW() const
@@ -128,12 +74,42 @@ bool UI::down_SW() const
     return m_Down_SW.isOn();
 }
 
+bool UI::down_SW_Down() const
+{
+    return m_Down_SW.isRisingEdg();
+}
+
+bool UI::down_SW_Up() const
+{
+    return m_Down_SW.isFallingEdg();
+}
+
 bool UI::right_SW() const
 {
     return m_Right_SW.isOn();
 }
 
+bool UI::right_SW_Down() const
+{
+    return m_Right_SW.isRisingEdg();
+}
+
+bool UI::right_SW_Up() const
+{
+    return m_Right_SW.isFallingEdg();
+}
+
 bool UI::left_SW() const
 {
     return m_Left_SW.isOn();
+}
+
+bool UI::left_SW_Down() const
+{
+    return m_Left_SW.isRisingEdg();
+}
+
+bool UI::left_SW_Up() const
+{
+    return m_Left_SW.isFallingEdg();
 }
