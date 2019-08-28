@@ -24,7 +24,8 @@ void ChatteringFilter::update( bool input_signal )
     m_FallingEdg = false;
 
     if( input_signal == mk_OnLevel ){
-        if( m_InputSignal == false ){
+        // 前回入力がOFFレベルの場合はカウンタ初期化
+        if( m_InputSignal != mk_OnLevel ){
             m_Cnt = 0;
         }
 
@@ -40,7 +41,8 @@ void ChatteringFilter::update( bool input_signal )
         }
     }
     else {
-        if( m_InputSignal == true ){
+        // 前回入力がONレベルの場合はカウンタ初期化
+        if( m_InputSignal == mk_OnLevel ){
             m_Cnt = 0;
         }
 

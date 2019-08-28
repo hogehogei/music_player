@@ -1,4 +1,4 @@
-
+#include "stm32f0xx_hal.h"
 #include "sdcard/SDC_Drv_SPI.hpp"
 #include "spi.h"
 
@@ -11,19 +11,45 @@ SDC_Drv_SPI::SDC_Drv_SPI()
 SDC_Drv_SPI::~SDC_Drv_SPI()
 {}
 
-void SDC_Drv_SPI::CS_Hi()
+bool SDC_Drv_SPI::InitSlowSpeed()
 {
-    HAL_GPIO_WritePin( GPIOA, SDCARD_CS_Pin, GPIO_PIN_SET );
-    // MMC/SDC の場合は SCLKに同期して DO信号の解放が行われる。
-    // DO信号を確実に解放するために、1byte分クロックを送っておく。
+	MX_SPI1_Init();
 
-    uint8_t tmp = 0;
-    HAL_SPI_Transmit( &hspi1, &tmp, 1, sk_SPI_Send_Timeout );
+	return true;
 }
 
-void SDC_Drv_SPI::CS_Lo()
+bool SDC_Drv_SPI::InitFastSpeed()
+{
+	SPI1_Init_Fast();
+
+	return true;
+}
+
+bool SDC_Drv_SPI::Select()
 {
     HAL_GPIO_WritePin( GPIOA, SDCARD_CS_Pin, GPIO_PIN_RESET );
+
+	uint8_t tmp = 0xFF;
+    if( !send( &tmp, 1 ) ){
+		return false;
+	}
+
+	if( waitReady() ){
+		return true;
+	}
+	
+	Release();
+	return false;
+}
+
+void SDC_Drv_SPI::Release()
+{
+    HAL_GPIO_WritePin( GPIOA, SDCARD_CS_Pin, GPIO_PIN_SET );
+
+    // MMC/SDC の場合は SCLKに同期して DO信号の解放が行われる。
+    // DO信号を確実に解放するために、1byte分クロックを送っておく。
+	uint8_t tmp = 0xFF;
+	send( &tmp, 1 );
 }
 
 bool SDC_Drv_SPI::send( const uint8_t* data, uint32_t len )
@@ -42,4 +68,17 @@ bool SDC_Drv_SPI::flush()
 {
     // 書き込みバッファは持たないので、特に何もしない
     return true;
+}
+
+bool SDC_Drv_SPI::waitReady()
+{
+	uint8_t tmp = 0;
+	while(1){
+		recv( &tmp, 1 );
+		if( tmp == 0xFF ){
+			break;
+		}
+	}
+
+	return tmp == 0xFF;
 }
