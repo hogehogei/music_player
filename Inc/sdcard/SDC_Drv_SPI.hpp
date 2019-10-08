@@ -19,14 +19,24 @@ public:
     virtual ~SDC_Drv_SPI() noexcept;
 
     /**
-     * @brief   chipselect Hi
-     **/
-    virtual void CS_Hi() override;
+     * @brief   SDカードドライバ低速初期化
+     */
+    virtual bool InitSlowSpeed() override;
 
     /**
-     * @brief   chipselect Lo
+     * @brief   SDカードドライバ高速初期化
+     */
+    virtual bool InitFastSpeed() override;
+
+    /**
+     * @brief   SDカードセレクト
      **/
-    virtual void CS_Lo() override;
+    virtual bool Select() override;
+
+    /**
+     * @brief   SDカード開放
+     **/
+    virtual void Release() override;
 
     /**
      * @brief   データ送信
@@ -58,6 +68,10 @@ public:
      * @retval  false   フラッシュ失敗　書き込み処理に失敗した
      **/
     virtual bool flush() override;
+
+private:
+
+    bool waitReady();
 };
 
 #endif      // SDC_DRV_SPI_HPP

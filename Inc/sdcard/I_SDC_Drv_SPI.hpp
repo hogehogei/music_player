@@ -14,14 +14,24 @@ public:
     virtual ~I_SDC_Drv_SPI() noexcept {}
 
     /**
-     * @brief   chipselect Hi
-     **/
-    virtual void CS_Hi() = 0;
+     * @brief   SDカードドライバ低速初期化
+     */
+    virtual bool InitSlowSpeed() = 0;
 
     /**
-     * @brief   chipselect Lo
+     * @brief   SDカードドライバ高速初期化
+     */
+    virtual bool InitFastSpeed() = 0;
+
+    /**
+     * @brief   SDカードセレクト
      **/
-    virtual void CS_Lo() = 0;
+    virtual bool Select() = 0;
+
+    /**
+     * @brief   SDカード開放
+     **/
+    virtual void Release() = 0;
 
     /**
      * @brief   データ送信
