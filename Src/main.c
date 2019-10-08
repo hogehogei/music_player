@@ -112,20 +112,26 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  //MX_SPI1_Init();
+  MX_SPI1_Init();
   MX_RTC_Init();
   MX_TIM14_Init();
   /* USER CODE BEGIN 2 */
     HAL_TIM_Base_Start_IT(&htim14);
 
-	  petitfs::FileSys& fs = petitfs::FileSys::Instance();
-
-    if( fs.Mount() != FR_OK ){
+    HAL_Delay( 1000 );
+    petitfs::FileSys& fs = petitfs::FileSys::Instance();
+    //if( fs.Mount() == FR_NO_FILESYSTEM ){
+    if( fs.Mount() == FR_OK ){
+        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
+    }
+#if 0
+    if( fs.Mount() == FR_NOT_READY ){
         g_BlinkInterval = 10;
     }
     else {
         g_BlinkInterval = 100;
     }
+#endif
 
 
   /* USER CODE END 2 */
@@ -137,7 +143,7 @@ int main(void)
         if (g_Timer_10ms >= 10)
         {
             g_UI.update();
-            Update_LED();
+            //Update_LED();
             g_Timer_10ms = 0;
         }
     /* USER CODE END WHILE */

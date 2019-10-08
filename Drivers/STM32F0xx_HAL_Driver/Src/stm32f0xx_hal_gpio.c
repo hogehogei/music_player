@@ -437,7 +437,7 @@ void HAL_GPIO_WritePin(GPIO_TypeDef* GPIOx, uint16_t GPIO_Pin, GPIO_PinState Pin
     GPIOx->BRR = (uint32_t)GPIO_Pin;
   }
 }
-
+  
 /**
   * @brief  Toggle the specified GPIO pin.
   * @param  GPIOx where x can be (A..F) to select the GPIO peripheral for STM32F0 family

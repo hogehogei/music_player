@@ -1,5 +1,5 @@
 #include "stm32f0xx_hal.h"
-//#include "main.h"
+#include "main.h"
 #include "sdcard/SD_Card.hpp"
 #include <limits>
 #include <algorithm>
@@ -47,7 +47,7 @@ static constexpr uint32_t k_MaxSector_ByteAccess = (std::numeric_limits<uint32_t
 // SDカードアクセス時間指定
 
 static constexpr uint8_t sk_SDC_InitDelay_ms    = 100;              //! SDC初期化ウェイト[ms]
-static constexpr uint8_t sk_SDC_InitSCLK        = 10;               //! SDC初期化カウント[x8 clock]
+static constexpr int sk_SDC_InitSCLK            = 10;               //! SDC初期化カウント[x8 clock]
 static constexpr uint16_t sk_SDC_TimeOut_ms     = 1000;             //! SDCコマンドタイムアウト[ms]
 
 static constexpr uint16_t sk_CMD_RespRetry          = 8192;         //! コマンドレスポンス読み出しリトライ回数
@@ -94,11 +94,11 @@ bool SD_Card::Initialize( I_SDC_Drv_SPI* driver )
     // DIはハードでプルアップしているので処理なし
 
     // 1ms以上待つ
-    HAL_Delay( 1 );
+    HAL_Delay( 10 );
 
     for( int i = 0; i < sk_SDC_InitSCLK; ++i ){
         // SPI 初期化クロック送信
-        uint8_t t = 0;
+        uint8_t t = 0xFF;
         m_SDC_Drv->send( &t, 1 );
     }
 

@@ -60,8 +60,28 @@ bool SDC_Drv_SPI::send( const uint8_t* data, uint32_t len )
 
 bool SDC_Drv_SPI::recv( uint8_t* data, uint32_t len )
 {
-    HAL_StatusTypeDef status = HAL_SPI_Receive( &hspi1, data, static_cast<uint16_t>(len), sk_SPI_Recv_Timeout );
-    return status == HAL_OK ? true : false;
+	// HAL_SPI_Receive 関数では、0x00を送信してしまうため正常にコマンド送信ができない。
+	// 受信時も0xFFを送信するように HAL_SPI_TransmitReceive を使う。
+	constexpr int k_TxBufSize = 16;
+	uint8_t txbuf[k_TxBufSize] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+								  0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF };
+	uint32_t remain_len = len;
+	uint8_t* dstp = data;
+
+	while( remain_len >= k_TxBufSize ){
+		if( HAL_SPI_TransmitReceive( &hspi1, txbuf, dstp, k_TxBufSize, sk_SPI_Recv_Timeout ) != HAL_OK ){
+			return false;
+		}
+		remain_len -= k_TxBufSize;
+		dstp += 16;
+	}
+	if( remain_len > 0 ){
+		if( HAL_SPI_TransmitReceive( &hspi1, txbuf, dstp, static_cast<uint16_t>(remain_len), sk_SPI_Recv_Timeout ) != HAL_OK ){ 
+			return false;
+		}
+	}
+
+    return true;
 }
 
 bool SDC_Drv_SPI::flush()
