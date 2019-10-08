@@ -148,21 +148,21 @@ public:
 
 private:
 
-    static const uint32_t sk_PlayPause_OnCnt        = 5U;       //! 再生・停止スイッチON閾値
-    static const uint32_t sk_PlayPause_OffCnt       = 5U;       //! 再生・停止スイッチOFF閾値
-    static const bool sk_PlayPause_OnLevel          = true;     //! 再生・停止スイッチONレベル
-    static const uint32_t sk_Up_OnCnt          = 5U;       //! 上スイッチON閾値
-    static const uint32_t sk_Up_OffCnt         = 5U;       //! 上スイッチOFF閾値
-    static const bool sk_Up_OnLevel            = true;     //! 上スイッチONレベル
-    static const uint32_t sk_Down_OnCnt        = 5U;       //! 下スイッチON閾値
-    static const uint32_t sk_Down_OffCnt       = 5U;       //! 下スイッチOFF閾値
-    static const bool sk_Down_OnLevel          = true;     //! 下スイッチONレベル
-    static const uint32_t sk_Right_OnCnt       = 5U;       //! 右スイッチON閾値
-    static const uint32_t sk_Right_OffCnt      = 5U;       //! 右スイッチOFF閾値
-    static const bool sk_Right_OnLevel         = true;     //! 右スイッチONレベル
-    static const uint32_t sk_Left_OnCnt        = 5U;       //! 左スイッチON閾値
-    static const uint32_t sk_Left_OffCnt       = 5U;       //! 左スイッチOFF閾値
-    static const bool sk_Left_OnLevel          = true;     //! 左スイッチONレベル
+    static constexpr uint32_t sk_PlayPause_OnCnt        = 5U;       //! 再生・停止スイッチON閾値
+    static constexpr uint32_t sk_PlayPause_OffCnt       = 5U;       //! 再生・停止スイッチOFF閾値
+    static constexpr bool sk_PlayPause_OnLevel          = true;     //! 再生・停止スイッチONレベル
+    static constexpr uint32_t sk_Up_OnCnt          = 5U;       //! 上スイッチON閾値
+    static constexpr uint32_t sk_Up_OffCnt         = 5U;       //! 上スイッチOFF閾値
+    static constexpr bool sk_Up_OnLevel            = true;     //! 上スイッチONレベル
+    static constexpr uint32_t sk_Down_OnCnt        = 5U;       //! 下スイッチON閾値
+    static constexpr uint32_t sk_Down_OffCnt       = 5U;       //! 下スイッチOFF閾値
+    static constexpr bool sk_Down_OnLevel          = true;     //! 下スイッチONレベル
+    static constexpr uint32_t sk_Right_OnCnt       = 5U;       //! 右スイッチON閾値
+    static constexpr uint32_t sk_Right_OffCnt      = 5U;       //! 右スイッチOFF閾値
+    static constexpr bool sk_Right_OnLevel         = true;     //! 右スイッチONレベル
+    static constexpr uint32_t sk_Left_OnCnt        = 5U;       //! 左スイッチON閾値
+    static constexpr uint32_t sk_Left_OffCnt       = 5U;       //! 左スイッチOFF閾値
+    static constexpr bool sk_Left_OnLevel          = true;     //! 左スイッチONレベル
 
     ChatteringFilter    m_PlayPause_SW;     //! 再生・停止スイッチ判定
     ChatteringFilter    m_Up_SW;            //! 上スイッチ判定

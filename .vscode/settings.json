@@ -1,0 +1,5 @@
+{
+    "files.associations": {
+        "sdc_drv_spi.hpp": "c"
+    }
+}
