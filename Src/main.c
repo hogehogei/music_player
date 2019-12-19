@@ -23,18 +23,16 @@
 #include "rtc.h"
 #include "spi.h"
 #include "tim.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "main.h"
-#include "rtc.h"
-#include "spi.h"
-#include "tim.h"
-#include "gpio.h"
 #include "input.hpp"
-
+#include "Timer.hpp"
+#include "UARTOut.hpp"
 #include "petit_fs/PetitFs.hpp"
+#include "MusicPlayer.hpp"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -58,16 +56,13 @@
 /* Private variables ---------------------------------------------------------*/
 static UI g_UI;
 volatile static uint32_t g_Timer_10ms = 0;
-static uint32_t g_BlinkCnt = 0;
-static uint32_t g_BlinkInterval = 100;
-static bool g_LED_On = false;
+volatile static uint32_t g_Timer_1s = 0;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-static void Update_LED();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -78,7 +73,39 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     if (htim == &htim14)
     {
         ++g_Timer_10ms;
+        ++g_Timer_1s;
+        TimerManager::Instance().UpdateMsTimers();
     }
+}
+
+void PrintFsResult( FRESULT result )
+{
+	switch( result ){
+	case FR_OK:
+		exlib::sout << "FR_OK\n";
+		break;
+	case FR_DISK_ERR:
+		exlib::sout << "FR_DISK_ERR\n";
+		break;
+	case FR_NOT_READY:
+		exlib::sout << "FR_NOT_READY\n";
+		break;
+	case FR_NO_FILE:
+		exlib::sout << "FR_NO_FILE\n";
+		break;
+	case FR_NOT_OPENED:
+		exlib::sout << "FR_NOT_OPENED\n";
+		break;
+	case FR_NOT_ENABLED:
+		exlib::sout << "FR_NOT_ENABLED\n";
+		break;
+	case FR_NO_FILESYSTEM:
+		exlib::sout << "FR_NO_FILESYSTEM\n";
+		break;
+	default:
+		exlib::sout << "It Must be BUG!!!\n";
+		break;
+	}
 }
 
 /* USER CODE END 0 */
@@ -112,27 +139,28 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_SPI1_Init();
   MX_RTC_Init();
+  MX_SPI1_Init();
   MX_TIM14_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
     HAL_TIM_Base_Start_IT(&htim14);
 
-    HAL_Delay( 1000 );
     petitfs::FileSys& fs = petitfs::FileSys::Instance();
-    //if( fs.Mount() == FR_NO_FILESYSTEM ){
-    if( fs.Mount() == FR_OK ){
-        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
-    }
-#if 0
-    if( fs.Mount() == FR_NOT_READY ){
-        g_BlinkInterval = 10;
+    FRESULT result = fs.Mount();
+    PrintFsResult( result );
+    if( result == FR_OK ){
+        exlib::sout << "SDCard Initialization complete!\n";
     }
     else {
-        g_BlinkInterval = 100;
+        exlib::sout << "SDCard Initialization failed.\n";
     }
-#endif
 
+    MusicPlayer music_player( "/" );
+    music_player.Start();
+
+    SPI1_Init_Fast();
+    HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
 
   /* USER CODE END 2 */
 
@@ -140,12 +168,33 @@ int main(void)
   /* USER CODE BEGIN WHILE */
     while (1)
     {
+        music_player.Update();
+
         if (g_Timer_10ms >= 10)
         {
             g_UI.update();
-            //Update_LED();
             g_Timer_10ms = 0;
         }
+        if( g_Timer_1s >= 1000 )
+        {
+            //music_player.ShowStatus();
+            g_Timer_1s = 0;
+        }
+
+        if( g_UI.playPause_SW_Up() ){
+            exlib::sout << "PauseResumeCall\n";
+            music_player.PauseResume();
+        }
+        if( g_UI.down_SW_Up() ){
+            music_player.VolumeDown();
+        }
+        if( g_UI.up_SW_Up() ){
+            music_player.VolumeUp();
+        }
+        if( g_UI.right_SW_Up() ){
+            music_player.NextFile();
+        }
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -188,7 +237,8 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_RTC;
+  PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_USART1|RCC_PERIPHCLK_RTC;
+  PeriphClkInit.Usart1ClockSelection = RCC_USART1CLKSOURCE_PCLK1;
   PeriphClkInit.RTCClockSelection = RCC_RTCCLKSOURCE_LSI;
   if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
   {
@@ -197,51 +247,6 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-static void Update_LED()
-{
-    ++g_BlinkCnt;
-
-    if (g_UI.playPause_SW_Up())
-    {
-        g_BlinkInterval = 10;
-        g_BlinkCnt = 0;
-    }
-    else if (g_UI.up_SW_Up())
-    {
-        g_BlinkInterval = 30;
-        g_BlinkCnt = 0;
-    }
-    else if (g_UI.down_SW_Up())
-    {
-        g_BlinkInterval = 50;
-        g_BlinkCnt = 0;
-    }
-    else if (g_UI.right_SW_Up())
-    {
-        g_BlinkInterval = 70;
-        g_BlinkCnt = 0;
-    }
-    else if (g_UI.left_SW_Up())
-    {
-        g_BlinkInterval = 100;
-        g_BlinkCnt = 0;
-    }
-
-    if (g_BlinkCnt >= g_BlinkInterval)
-    {
-        g_LED_On = !g_LED_On;
-        g_BlinkCnt = 0;
-    }
-
-    if (g_LED_On)
-    {
-        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_SET);
-    }
-    else
-    {
-        HAL_GPIO_WritePin(LED_GPIO_Port, LED_Pin, GPIO_PIN_RESET);
-    }
-}
 /* USER CODE END 4 */
 
 /**

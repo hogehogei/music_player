@@ -1,6 +1,7 @@
 #include "stm32f0xx_hal.h"
 #include "main.h"
 #include "sdcard/SD_Card.hpp"
+#include "UARTOut.hpp"
 #include <limits>
 #include <algorithm>
 
@@ -87,7 +88,6 @@ bool SD_Card::Initialize( I_SDC_Drv_SPI* driver )
         return false;
     }
     m_SDC_Drv = driver;
-    m_SDC_Drv->InitSlowSpeed();
 
     // CSをHレベルに設定
     m_SDC_Drv->Release();
@@ -101,7 +101,6 @@ bool SD_Card::Initialize( I_SDC_Drv_SPI* driver )
         uint8_t t = 0xFF;
         m_SDC_Drv->send( &t, 1 );
     }
-
     // 初期化開始
 
     uint8_t type = sk_SDC_Type_None;
@@ -120,14 +119,13 @@ bool SD_Card::Initialize( I_SDC_Drv_SPI* driver )
 
     // 初期化終了
     m_SDC_Drv->Release();
-
+    
     if( type == sk_SDC_Type_None ){
         m_SDC_State = false;
         return false;
     }
 
     m_CardType = type;
-    m_SDC_Drv->InitFastSpeed();
 
     return true;
 }
