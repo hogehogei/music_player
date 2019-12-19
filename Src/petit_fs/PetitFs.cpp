@@ -116,12 +116,12 @@ namespace petitfs
 
 	bool FileInfo::IsDirectory() const
 	{
-		return (m_FileInfo.fattrib & AM_DIR) == AM_DIR;
+		return m_IsValid && (m_FileInfo.fattrib & AM_DIR) == AM_DIR;
 	}
 
 	bool FileInfo::IsFile() const
 	{
-		return !IsDirectory();
+		return m_IsValid && !IsDirectory();
 	}
 
 	const char* FileInfo::Name() const

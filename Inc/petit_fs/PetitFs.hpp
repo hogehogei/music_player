@@ -56,6 +56,7 @@ namespace petitfs
 	{
 	public:
 
+		FileInfo();
 		bool IsValid() const;
 		bool IsDirectory() const;
 		bool IsFile() const;
@@ -64,7 +65,6 @@ namespace petitfs
 	private:
 
 		friend class Dir;
-		FileInfo();
 		FileInfo( const FILINFO& info );
 
 		FILINFO m_FileInfo;

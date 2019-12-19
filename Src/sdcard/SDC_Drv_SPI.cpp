@@ -1,29 +1,15 @@
 #include "stm32f0xx_hal.h"
 #include "sdcard/SDC_Drv_SPI.hpp"
 #include "spi.h"
+#include "Timer.hpp"
 
-static constexpr uint32_t sk_SPI_Send_Timeout = 1000;
-static constexpr uint32_t sk_SPI_Recv_Timeout = 1000;
+static constexpr uint32_t sk_SPI_Timeout = 1000;
 
 SDC_Drv_SPI::SDC_Drv_SPI()
 {}
 
 SDC_Drv_SPI::~SDC_Drv_SPI()
 {}
-
-bool SDC_Drv_SPI::InitSlowSpeed()
-{
-	MX_SPI1_Init();
-
-	return true;
-}
-
-bool SDC_Drv_SPI::InitFastSpeed()
-{
-	SPI1_Init_Fast();
-
-	return true;
-}
 
 bool SDC_Drv_SPI::Select()
 {
@@ -33,7 +19,6 @@ bool SDC_Drv_SPI::Select()
     if( !send( &tmp, 1 ) ){
 		return false;
 	}
-
 	if( waitReady() ){
 		return true;
 	}
@@ -54,8 +39,8 @@ void SDC_Drv_SPI::Release()
 
 bool SDC_Drv_SPI::send( const uint8_t* data, uint32_t len )
 {
-    HAL_StatusTypeDef status = HAL_SPI_Transmit( &hspi1, const_cast<uint8_t*>(data), static_cast<uint16_t>(len), sk_SPI_Send_Timeout );
-    return status == HAL_OK ? true : false;
+    HAL_StatusTypeDef status = HAL_SPI_Transmit( &hspi1, const_cast<uint8_t*>(data), static_cast<uint16_t>(len), sk_SPI_Timeout );
+    return status == HAL_OK;
 }
 
 bool SDC_Drv_SPI::recv( uint8_t* data, uint32_t len )
@@ -69,14 +54,14 @@ bool SDC_Drv_SPI::recv( uint8_t* data, uint32_t len )
 	uint8_t* dstp = data;
 
 	while( remain_len >= k_TxBufSize ){
-		if( HAL_SPI_TransmitReceive( &hspi1, txbuf, dstp, k_TxBufSize, sk_SPI_Recv_Timeout ) != HAL_OK ){
+		if( HAL_SPI_TransmitReceive( &hspi1, txbuf, dstp, k_TxBufSize, sk_SPI_Timeout ) != HAL_OK ){
 			return false;
 		}
 		remain_len -= k_TxBufSize;
 		dstp += 16;
 	}
 	if( remain_len > 0 ){
-		if( HAL_SPI_TransmitReceive( &hspi1, txbuf, dstp, static_cast<uint16_t>(remain_len), sk_SPI_Recv_Timeout ) != HAL_OK ){ 
+		if( HAL_SPI_TransmitReceive( &hspi1, txbuf, dstp, static_cast<uint16_t>(remain_len), sk_SPI_Timeout ) != HAL_OK ){ 
 			return false;
 		}
 	}
@@ -93,9 +78,14 @@ bool SDC_Drv_SPI::flush()
 bool SDC_Drv_SPI::waitReady()
 {
 	uint8_t tmp = 0;
-	while(1){
+	MsTimer timer;
+
+	while(1){	
 		recv( &tmp, 1 );
 		if( tmp == 0xFF ){
+			break;
+		}
+		if( timer.IsElapsed( sk_SPI_Timeout ) ){
 			break;
 		}
 	}
